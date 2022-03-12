@@ -3,23 +3,7 @@ import requests
 
 from datetime import datetime, timedelta
 
-
-def predict_sj_salary(vacancy):
-    salary = None
-    if vacancy['currency'] != 'rub':
-        return salary
-
-    low_limit = vacancy['payment_from']
-    high_limit = vacancy['payment_to']
-
-    if low_limit > 0 and high_limit > 0:
-        salary = (low_limit + high_limit) / 2
-    elif low_limit > 0:
-        salary = low_limit * 1.2
-    elif high_limit > 0:
-        salary = high_limit * 0.8
-
-    return salary
+from predict_salary import predict_rub_salary
 
 
 def analyze_sj_for_language(lang, area, api_key):
@@ -57,7 +41,10 @@ def analyze_sj_for_language(lang, area, api_key):
         vacancies = response.json()['objects']
         for vacancy in vacancies:
             result['vacancies_found'] += 1
-            salary = predict_sj_salary(vacancy)
+            salary = predict_rub_salary(
+                        vacancy['currency'],
+                        vacancy['payment_from'],
+                        vacancy['payment_to'])
             if salary:
                 result['vacancies_processed'] += 1
                 salary_sum += salary
