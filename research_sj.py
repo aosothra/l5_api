@@ -53,7 +53,10 @@ def analyze_sj_for_language(lang, area, api_key):
         if not response_data['more']:
             break
 
-    result['salary_average'] = int(salary_sum / result['vacancies_processed'])
+    if result['vacancies_processed']:
+        result['salary_average'] = int(salary_sum / result['vacancies_processed'])
+    else:
+        result['salary_average'] = 0
     return result
 
 
