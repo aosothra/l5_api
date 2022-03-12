@@ -38,7 +38,8 @@ def analyze_sj_for_language(lang, area, api_key):
         response = requests.get(url, headers=headers, params=payload)
         response.raise_for_status()
 
-        vacancies = response.json()['objects']
+        response_data = response.json()
+        vacancies = response_data['objects']
         for vacancy in vacancies:
             result['vacancies_found'] += 1
             salary = predict_rub_salary(
@@ -49,7 +50,7 @@ def analyze_sj_for_language(lang, area, api_key):
                 result['vacancies_processed'] += 1
                 salary_sum += salary
 
-        if not response.json()['more']:
+        if not response_data['more']:
             break
 
     result['salary_average'] = int(salary_sum / result['vacancies_processed'])

@@ -27,7 +27,8 @@ def analyze_hh_for_language(lang, area):
         response = requests.get(url, params=payload)
         response.raise_for_status()
 
-        vacancies = response.json()['items']
+        response_data = response.json()
+        vacancies = response_data['items']
 
         for vacancy in vacancies:
             result['vacancies_found'] += 1
@@ -44,7 +45,7 @@ def analyze_hh_for_language(lang, area):
                 result['vacancies_processed'] += 1
                 salary_sum += salary
 
-        if (page >= response.json()['pages'] or
+        if (page >= response_data['pages'] or
                 result['vacancies_found'] >= 2000):
             break
 
