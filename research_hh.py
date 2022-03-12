@@ -30,20 +30,19 @@ def analyze_hh_for_language(lang, area):
         vacancies = response.json()['items']
 
         for vacancy in vacancies:
-            if vacancy['area']['name'] == area:
-                result['vacancies_found'] += 1
-                salary = (
-                    predict_rub_salary(
-                        vacancy['salary']['currency'],
-                        vacancy['salary']['from'],
-                        vacancy['salary']['to']
-                        )
-                    if vacancy['salary']
-                    else None
+            result['vacancies_found'] += 1
+            salary = (
+                predict_rub_salary(
+                    vacancy['salary']['currency'],
+                    vacancy['salary']['from'],
+                    vacancy['salary']['to']
                     )
-                if salary:
-                    result['vacancies_processed'] += 1
-                    salary_sum += salary
+                if vacancy['salary']
+                else None
+                )
+            if salary:
+                result['vacancies_processed'] += 1
+                salary_sum += salary
 
         if (page >= response.json()['pages'] or
                 result['vacancies_found'] >= 2000):
