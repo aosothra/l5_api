@@ -9,10 +9,7 @@ from research_sj import summarize_sj_vacancies
 def convert_to_table_content(header, items):
     rows = [header]
     for item in items:
-        row = []
-        for value in item.values():
-            row.append(str(value))
-        rows.append(row)
+        rows.append(item.values())
     return rows
 
 
