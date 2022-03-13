@@ -32,7 +32,7 @@ def analyze_hh_for_language(lang, area):
 
         for vacancy in vacancies:
             result['vacancies_found'] += 1
-            
+
             if not vacancy['salary']:
                 continue
 
