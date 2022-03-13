@@ -32,15 +32,14 @@ def analyze_hh_for_language(lang, area):
 
         for vacancy in vacancies:
             result['vacancies_found'] += 1
-            salary = (
-                predict_rub_salary(
-                    vacancy['salary']['currency'],
-                    vacancy['salary']['from'],
-                    vacancy['salary']['to']
-                    )
-                if vacancy['salary']
-                else None
-                )
+            
+            if not vacancy['salary']:
+                continue
+
+            salary = predict_rub_salary(
+                        vacancy['salary']['currency'],
+                        vacancy['salary']['from'],
+                        vacancy['salary']['to'])
             if salary:
                 result['vacancies_processed'] += 1
                 salary_sum += salary
